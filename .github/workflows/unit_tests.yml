@@ -120,7 +120,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./ETHkey-1
+        working-directory: ./ethkey
     strategy:
       matrix:
         python: ['3.10', '3.11', '3.12']
@@ -144,8 +144,8 @@ jobs:
         id: cached-poetry-dependencies
         uses: actions/cache@v3
         with:
-          path: ./ETHkey-1/.venv
-          key: venv-ethkey-${{ runner.os }}-${{ matrix.python }}-${{ hashFiles('ETHkey-1/poetry.lock') }}
+          path: ./ethkey/.venv
+          key: venv-ethkey-${{ runner.os }}-${{ matrix.python }}-${{ hashFiles('ethkey/poetry.lock') }}
 
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
