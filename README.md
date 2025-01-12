@@ -3,16 +3,25 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/cdp-agentkit-core?style=flat-square)](https://pypistats.org/packages/cdp-agentkit-core)
 [![GitHub star chart](https://img.shields.io/github/stars/coinbase/cdp-agentkit?style=flat-square)](https://star-history.com/#coinbase/cdp-agentkit)
 [![Open Issues](https://img.shields.io/github/issues-raw/coinbase/cdp-agentkit?style=flat-square)](https://github.com/coinbase/cdp-agentkit/issues)
+[![Lint](https://github.com/Setland34/cdp-agentkit/actions/workflows/lint.yml/badge.svg)](https://github.com/Setland34/cdp-agentkit/actions/workflows/lint.yml)
 
 The **Coinbase Developer Platform (CDP) Agentkit for Python** simplifies bringing your AI Agents onchain. Every AI Agent deserves a crypto wallet!
 
+## Table of Contents
+- [Key Features](#key-features)
+- [Examples](#examples)
+- [Repository Structure](#repository-structure)
+- [Contributing](#contributing)
+- [Documentation](#documentation)
+- [Setup and Usage Instructions](#setup-and-usage-instructions)
+- [Troubleshooting](#troubleshooting)
+- [Code of Conduct](#code-of-conduct)
 
 ## Key Features
 - **Framework-agnostic**: Common AI Agent primitives that can be used with any AI framework.
 - **LangChain integration**: Seamless integration with [LangChain](https://python.langchain.com/docs/introduction/) for easy agentic workflows. More frameworks coming soon!
 - **Twitter integration**: Seamless integration of Langchain with [Twitter](https://developer.twitter.com/en/docs/twitter-api) for easy agentic workflows.
 - **Support for various on-chain actions**:
-
   - Faucet for testnet funds
   - Getting wallet details and balances
   - Transferring and trading tokens
@@ -21,8 +30,7 @@ The **Coinbase Developer Platform (CDP) Agentkit for Python** simplifies bringin
   - Deploying [ERC-721](https://www.coinbase.com/learn/crypto-glossary/what-is-erc-721) tokens and minting NFTs
   - Buying and selling [Zora Wow](https://wow.xyz/) ERC-20 coins
   - Deploying tokens on [Zora's Wow Launcher](https://wow.xyz/mechanics) (Bonding Curve)
-
-  Or [add your own](./CONTRIBUTING.md#adding-an-action-to-agentkit-core)!
+  - Or [add your own](./CONTRIBUTING.md#adding-an-action-to-agentkit-core)!
 
 ## Examples
 Check out [cdp-langchain/examples](./cdp-langchain/examples) for inspiration and help getting started!
@@ -52,122 +60,95 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 - [API Reference: CDP Agentkit Core](https://coinbase.github.io/cdp-agentkit/cdp-agentkit-core/index.html)
 - [API Reference: CDP Agentkit LangChain Extension](https://coinbase.github.io/cdp-agentkit/cdp-langchain/index.html)
 
-## Cloning the Repository
-To clone this repository, use the following command:
-```
-gh repo clone Setland34/ETHkey-1
-```
+## Setup and Usage Instructions
 
-## Prerequisites
-Before starting the setup, ensure you have the following tools and versions installed:
-- Node.js (v14.x or higher)
-- npm (v6.x or higher)
-- Truffle (v5.x or higher)
-- Ganache CLI (v6.x or higher)
+### Prerequisites
+- Python 3.10 or higher
+- [CDP API Key](https://portal.cdp.coinbase.com/access/api)
 
-## Installing Dependencies
-To install the necessary dependencies, run the following command:
-```
-npm install
+### Installation
+
+```bash
+pip install cdp-agentkit
 ```
 
-## Development Environment Setup
-To set up the development environment, follow these steps:
-1. Install Ganache CLI:
-   ```
-   npm install -g ganache-cli
-   ```
-2. Install Truffle:
-   ```
-   npm install -g truffle
-   ```
-3. Start Ganache CLI:
-   ```
-   ganache-cli
-   ```
-4. Compile the smart contracts:
-   ```
-   truffle compile
-   ```
-5. Migrate the smart contracts to the development network:
-   ```
-   truffle migrate --network development
-   ```
+### Environment Setup
 
-## Testing Instructions
-To run tests for the smart contracts, use the following command:
-```
-truffle test
-```
-To run tests with forked mainnet state, use the following command:
-```
-forge test --fork-url https://eth-sepolia.g.alchemy.com/v2/YOURKEY
+Set the following environment variables:
+
+```bash
+export CDP_API_KEY_NAME=<your-api-key-name>
+export CDP_API_KEY_PRIVATE_KEY=$'<your-private-key>'
+export OPENAI_API_KEY=<your-openai-api-key>
+export NETWORK_ID=base-sepolia  # Optional: Defaults to base-sepolia
 ```
 
-## Usage Instructions
-To interact with the smart contracts using web3.js or ethers.js, follow these examples:
+### Basic Setup
 
-### Using web3.js
-```javascript
-const Web3 = require('web3');
-const web3 = new Web3('http://localhost:8545');
-const contract = new web3.eth.Contract(abi, contractAddress);
+```python
+from cdp_langchain.agent_toolkits import CdpToolkit
+from cdp_langchain.utils import CdpAgentkitWrapper
 
-// Example function call
-contract.methods.exampleFunction().call()
-  .then(result => console.log(result))
-  .catch(error => console.error(error));
+# Initialize CDP wrapper
+cdp = CdpAgentkitWrapper()
+
+# Create toolkit from wrapper
+toolkit = CdpToolkit.from_cdp_agentkit_wrapper(cdp)
 ```
 
-### Using ethers.js
-```javascript
-const { ethers } = require('ethers');
-const provider = new ethers.providers.JsonRpcProvider('http://localhost:8545');
-const contract = new ethers.Contract(contractAddress, abi, provider);
-
-// Example function call
-contract.exampleFunction()
-  .then(result => console.log(result))
-  .catch(error => console.error(error));
+View available tools:
+```python
+tools = toolkit.get_tools()
+for tool in tools:
+    print(tool.name)
 ```
 
-## API Documentation
-The API documentation provides detailed information about the functions and methods available in the smart contracts. You can find the API documentation [here](link-to-api-documentation).
+The toolkit provides the following tools:
 
-## Deployment Instructions
-To deploy the smart contracts to different networks, follow these steps:
-1. Configure the network settings in `truffle-config.js`.
-2. Deploy the smart contracts:
-   ```
-   truffle migrate --network <network-name>
-   ```
+1. **get_wallet_details** - Get details about the MPC Wallet
+2. **get_balance** - Get balance for specific assets
+3. **request_faucet_funds** - Request test tokens from faucet
+4. **transfer** - Transfer assets between addresses
+5. **trade** - Trade assets (Mainnet only)
+6. **deploy_token** - Deploy ERC-20 token contracts
+7. **mint_nft** - Mint NFTs from existing contracts
+8. **deploy_nft** - Deploy new NFT contracts
+9. **register_basename** - Register a basename for the wallet
+10. **wow_create_token** - Deploy a token using Zora's Wow Launcher (Bonding Curve)
+11. **wow_buy_token** - Buy Zora Wow ERC20 memecoin with ETH
+12. **wow_sell_token** - Sell Zora Wow ERC20 memecoin for ETH
 
-## Changelog
-Keep track of changes and updates made to the repository in this section.
+### Using with an Agent
+
+```python
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
+
+# Initialize LLM
+llm = ChatOpenAI(model="gpt-4o-mini")
+
+# Get tools and create agent
+tools = toolkit.get_tools()
+agent_executor = create_react_agent(llm, tools)
+
+# Example usage
+events = agent_executor.stream(
+    {"messages": [("user", "Send 0.005 ETH to john2879.base.eth")]},
+    stream_mode="values"
+)
+
+for event in events:
+    event["messages"][-1].pretty_print()
+```
+Expected output:
+```
+Transferred 0.005 of eth to john2879.base.eth.
+Transaction hash for the transfer: 0x78c7c2878659a0de216d0764fc87eff0d38b47f3315fa02ba493a83d8e782d1e
+Transaction link for the transfer: https://sepolia.basescan.org/tx/0x78c7c2878659a0de216d0764fc87eff0d38b47f3315fa02ba493a83d8e782d1
+```
 
 ## Troubleshooting
 If you encounter any issues during setup or usage, refer to this section for common problems and their solutions.
 
-## License
-This repository is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
-
-## Getting Started
-To start using the repository, follow the instructions in the [Development Environment Setup](#development-environment-setup) and [Usage Instructions](#usage-instructions) sections.
-
-## Project Structure
-Explain the directory structure and the purpose of each file in this section.
-
-## Configuration
-Detail any configuration settings and how to modify them in this section.
-
 ## Code of Conduct
 To ensure a welcoming and inclusive community, please adhere to the [Code of Conduct](CODE_OF_CONDUCT.md).
-
-## Contributing
-To contribute to this repository, follow these guidelines:
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Write clear and concise commit messages.
-4. Submit a pull request.
-
-<script src="https://gist.github.com/Setland34/1f52d3d6f2382851bafff6c5bb850b6b.js"></script>
