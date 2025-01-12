@@ -123,33 +123,18 @@ jobs:
         working-directory: ./ethkey
     strategy:
       matrix:
-        python: ['3.10', '3.11', '3.12']
+        node: ['14.x', '16.x', '18.x']
     
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v4
+      - name: Set up Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v2
         with:
-          python-version: ${{ matrix.python }}
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: latest
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: ./ethkey/.venv
-          key: venv-ethkey-${{ runner.os }}-${{ matrix.python }}-${{ hashFiles('ethkey/poetry.lock') }}
+          node-version: ${{ matrix.node }}
 
       - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --with dev
+        run: npm install
 
       - name: Run tests
-        run: poetry run make test
+        run: npm test
