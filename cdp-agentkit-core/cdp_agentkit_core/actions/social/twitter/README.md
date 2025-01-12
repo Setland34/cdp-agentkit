@@ -1,92 +1,104 @@
 # Twitter Account Details Action
 
-This action retrieves the account details for the currently authenticated Twitter (X) user context.
+This directory contains the `account_details` action for retrieving account details of the authenticated Twitter (X) user.
 
 ## Overview
 
-The `account_details` function in `account_details.py` is used to get the authenticated Twitter (X) user account details. It returns a message containing the account details for the authenticated user context.
+The `account_details` action retrieves the account details of the authenticated Twitter (X) user. It returns a JSON payload containing the user's account information, such as the user ID, name, username, and profile URL.
 
-## Usage Instructions
+## Usage
 
-### Prerequisites
+To use the `account_details` action, follow these steps:
 
-- You need to have a Twitter Developer account and create a Twitter App to get the necessary API keys and tokens.
-- Install the required dependencies:
-  ```bash
-  pip install tweepy
-  ```
+1. Ensure you have the necessary dependencies installed. You can install them using `pip`:
 
-### Setup
-
-1. Set up your Twitter API credentials as environment variables:
    ```bash
-   export TWITTER_API_KEY="your_api_key"
-   export TWITTER_API_SECRET="your_api_secret"
-   export TWITTER_ACCESS_TOKEN="your_access_token"
-   export TWITTER_ACCESS_TOKEN_SECRET="your_access_token_secret"
-   export TWITTER_BEARER_TOKEN="your_bearer_token"
+   pip install tweepy pydantic
    ```
 
-2. Create a `tweepy.Client` instance using your credentials:
+2. Import the required modules and create a `tweepy.Client` instance with your Twitter API credentials:
+
    ```python
    import tweepy
+   from cdp_agentkit_core.actions.social.twitter.account_details import account_details
 
    client = tweepy.Client(
-       consumer_key="your_api_key",
-       consumer_secret="your_api_secret",
-       access_token="your_access_token",
-       access_token_secret="your_access_token_secret",
-       bearer_token="your_bearer_token",
+       consumer_key="YOUR_CONSUMER_KEY",
+       consumer_secret="YOUR_CONSUMER_SECRET",
+       access_token="YOUR_ACCESS_TOKEN",
+       access_token_secret="YOUR_ACCESS_TOKEN_SECRET",
+       bearer_token="YOUR_BEARER_TOKEN",
        return_type=dict,
    )
    ```
 
-### Example Usage
+3. Call the `account_details` function with the `tweepy.Client` instance:
+
+   ```python
+   response = account_details(client)
+   print(response)
+   ```
+
+## Examples
+
+### Example 1: Successful Retrieval
 
 ```python
+import tweepy
 from cdp_agentkit_core.actions.social.twitter.account_details import account_details
 
-# Create a tweepy.Client instance
 client = tweepy.Client(
-    consumer_key="your_api_key",
-    consumer_secret="your_api_secret",
-    access_token="your_access_token",
-    access_token_secret="your_access_token_secret",
-    bearer_token="your_bearer_token",
+    consumer_key="YOUR_CONSUMER_KEY",
+    consumer_secret="YOUR_CONSUMER_SECRET",
+    access_token="YOUR_ACCESS_TOKEN",
+    access_token_secret="YOUR_ACCESS_TOKEN_SECRET",
+    bearer_token="YOUR_BEARER_TOKEN",
     return_type=dict,
 )
 
-# Get account details
 response = account_details(client)
 print(response)
 ```
 
-### Expected Input and Output
+Expected output:
 
-#### Input
-
-- `client` (tweepy.Client): The Twitter (X) client used to authenticate with.
-
-#### Output
-
-- A message containing account details for the authenticated user context.
-
-#### Example Output
-
-```json
-{
-  "data": {
-    "id": "123456789",
-    "name": "Your Name",
-    "username": "yourusername",
-    "url": "https://x.com/yourusername"
-  }
-}
+```
+Successfully retrieved authenticated user account details:
+{"data": {"id": "1853889445319331840", "name": "CDP AgentKit", "username": "CDPAgentKit", "url": "https://x.com/CDPAgentKit"}}
 ```
 
-In case of an error, the output will be an error message:
-```json
-{
-  "error": "Error retrieving authenticated user account details: <error_message>"
-}
+### Example 2: Failure due to API Error
+
+```python
+import tweepy
+from cdp_agentkit_core.actions.social.twitter.account_details import account_details
+
+client = tweepy.Client(
+    consumer_key="YOUR_CONSUMER_KEY",
+    consumer_secret="YOUR_CONSUMER_SECRET",
+    access_token="YOUR_ACCESS_TOKEN",
+    access_token_secret="YOUR_ACCESS_TOKEN_SECRET",
+    bearer_token="YOUR_BEARER_TOKEN",
+    return_type=dict,
+)
+
+# Simulate an API error by providing invalid credentials
+client = tweepy.Client(
+    consumer_key="INVALID_CONSUMER_KEY",
+    consumer_secret="INVALID_CONSUMER_SECRET",
+    access_token="INVALID_ACCESS_TOKEN",
+    access_token_secret="INVALID_ACCESS_TOKEN_SECRET",
+    bearer_token="INVALID_BEARER_TOKEN",
+    return_type=dict,
+)
+
+response = account_details(client)
+print(response)
+```
+
+Expected output:
+
+```
+Error retrieving authenticated user account details:
+TweepyException: Invalid or expired token.
 ```
