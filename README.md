@@ -9,9 +9,6 @@
 - [Key Features](#key-features)
 - [Examples](#examples)
 - [Repository Structure](#repository-structure)
-  - [cdp-agentkit-core](#cdp-agentkit-core)
-  - [cdp-langchain](#cdp-langchain)
-  - [twitter-langchain](#twitter-langchain)
 - [Contributing](#contributing)
 - [Documentation](#documentation)
 
