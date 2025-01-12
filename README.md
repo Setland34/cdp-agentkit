@@ -11,12 +11,6 @@
 - [Repository Structure](#repository-structure)
 - [Contributing](#contributing)
 - [Documentation](#documentation)
-- [Troubleshooting](#troubleshooting)
-- [Configuration](#configuration)
-- [Code of Conduct](#code-of-conduct)
-- [Guidelines for Writing Clear and Concise Commit Messages](#guidelines-for-writing-clear-and-concise-commit-messages)
-- [Running Tests and Ensuring Code Quality](#running-tests-and-ensuring-code-quality)
-- [Links to Relevant Documentation and Resources for Contributors](#links-to-relevant-documentation-and-resources-for-contributors)
 
 ## Key Features
 - **Framework-agnostic**: Common AI Agent primitives that can be used with any AI framework.
@@ -59,42 +53,6 @@ CDP Agentkit welcomes community contributions.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 ## Documentation
-- [CDP Agentkit Documentation](https://docs.cdp.coinbase.com/agentkit/docs/welcome)
-- [API Reference: CDP Agentkit Core](https://coinbase.github.io/cdp-agentkit/cdp-agentkit-core/index.html)
-- [API Reference: CDP Agentkit LangChain Extension](https://coinbase.github.io/cdp-agentkit/cdp-langchain/index.html)
-
-## Troubleshooting
-If you encounter any issues during setup or usage, refer to this section for common problems and their solutions.
-
-## Configuration
-Detail any configuration settings and how to modify them in this section.
-
-## Code of Conduct
-To ensure a welcoming and inclusive community, please adhere to the [Code of Conduct](CODE_OF_CONDUCT.md).
-
-## Guidelines for Writing Clear and Concise Commit Messages
-1. Use the imperative mood in the subject line.
-2. Limit the subject line to 50 characters.
-3. Capitalize the subject line.
-4. Do not end the subject line with a period.
-5. Use the body to explain what and why vs. how.
-
-## Running Tests and Ensuring Code Quality
-To run tests and ensure code quality before submitting contributions, follow these steps:
-1. Install dependencies:
-   ```
-   npm install
-   ```
-2. Run tests:
-   ```
-   npm test
-   ```
-3. Run linters:
-   ```
-   npm run lint
-   ```
-
-## Links to Relevant Documentation and Resources for Contributors
 - [CDP Agentkit Documentation](https://docs.cdp.coinbase.com/agentkit/docs/welcome)
 - [API Reference: CDP Agentkit Core](https://coinbase.github.io/cdp-agentkit/cdp-agentkit-core/index.html)
 - [API Reference: CDP Agentkit LangChain Extension](https://coinbase.github.io/cdp-agentkit/cdp-langchain/index.html)
